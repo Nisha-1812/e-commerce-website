@@ -5,13 +5,13 @@ import {
     ListItem,
     ListItemIcon,
     ListItemText,
-    Toolbar,
+    // Toolbar,
     Typography,
     Box,
 } from "@mui/material";
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
-import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
+// import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 import LoginIcon from '@mui/icons-material/Login';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -21,7 +21,7 @@ const drawerwidth = 220
 const menuitems = [
     { text: "Dashboard", icon: <DashboardIcon />, link: '/dashboard' },
     { text: "Products", icon: <ShoppingBagIcon />, link: '/products' },
-    { text: "Invoices", icon: <ReceiptLongIcon />, link: '/invoices' },
+    // { text: "Invoices", icon: <ReceiptLongIcon />, link: '/invoices' },
     { text: "Sign In", icon: <LoginIcon />, link: '/signin' },
     { text: "Sign Up", icon: <HowToRegIcon />, link: '/signup' },
 ]

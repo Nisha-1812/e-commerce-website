@@ -2,6 +2,10 @@ import React, { useEffect, useState, useContext } from 'react';
 import axios from "axios";
 import "./Product.css";
 import { CartContext } from '../Carts/Cartcontext';
+import { Link } from 'react-router-dom';
+import { Snackbar, Alert } from '@mui/material';
+import { TextField, IconButton } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
 
 const Readmore = ({ text, maxChars = 30 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -50,7 +54,7 @@ const ProductTitle = ({ title }) => {
   };
 
   return (
-    <h2 onClick={toggleTitle} style={{ cursor: 'pointer', display: 'inline', color: '#333',fontSize:"21px" }}>
+    <h2 onClick={toggleTitle} style={{ cursor: 'pointer', display: 'inline', color: '#333', fontSize: "21px" }}>
       {isExpanded
         ? title + ' (show less)'
         : title.length > 15
@@ -63,6 +67,11 @@ const ProductTitle = ({ title }) => {
 const Product = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filteredProducts, setFilteredProducts] = useState([]);
 
   const { cartItems, addToCart } = useContext(CartContext);
 
@@ -80,42 +89,83 @@ const Product = () => {
 
   if (loading) return <p>Loading products...</p>;
 
+  const handleSearch = () => {
+    const filteredData = products.filter(product => {
+      return product.title.toLowerCase().includes(searchTerm.toLowerCase())
+    })
+    setFilteredProducts(filteredData)
+  }
+
+  const displayProducts = searchTerm ? filteredProducts : products;
+
   return (
-    <div className='product-grid'>
-      {products.map(product => {
-        const isInCart = cartItems.some(item => item.id === product.id);
+    <>
+      <div className='searchbutton'>
+        <TextField
+          variant="outlined"
+          size="small"
+          placeholder="Search products..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') handleSearch();
+          }}
+          sx={{
+            width:'50%'
+          }}
+        />
+        <IconButton color="primary" onClick={handleSearch}>
+          <SearchIcon />
+        </IconButton>
+      </div>
+      <div className='product-grid'>
+        {displayProducts.map((product, index) => {
+          const isInCart = cartItems.some(item => item.id === product.id);
 
-        return (
-          <div key={product.id} className='product-card'>
-            <img className="product-image" src={product.image} alt='product' />
-            <ProductTitle className="product-title" title={product.title} />
-            <p><strong>Price:</strong> ₹{product.price}</p>
-            <h2 className='product-category'>{product.category}</h2>
-            <Readmore text={product.description} maxChars={30} />
-            <div className='rating'>
-              <StarRating rating={Math.round(product.rating.rate)} count={product.rating.count} />
+          return (
+            <div key={product.id} className='product-card'>
+              <Link to={`/product/${index + 1}`}><img className="product-image" src={product.image} alt='productimage'></img></Link>
+              <Link to={`/product/${index + 1}`} style={{ textDecoration: 'none' }}><ProductTitle title={product.title} /></Link>
+              <p><strong>Price:</strong> ₹{product.price}</p>
+              <h2 className='product-category'>{product.category}</h2>
+              <Readmore text={product.description} maxChars={30} />
+              <div className='rating'>
+                <StarRating rating={Math.round(product.rating.rate)} count={product.rating.count} />
+              </div>
+
+              <button
+                className='cart-button'
+                onClick={() => {
+                  if (!isInCart) {
+                    addToCart(product);
+                    setOpenSnackbar(true)
+                  }
+                }}
+                disabled={isInCart}
+                style={{
+                  opacity: isInCart ? 0.6 : 1,
+                  cursor: isInCart ? 'not-allowed' : 'pointer',
+                }}
+              >
+                {isInCart ? 'Add to cart' : 'Add to Cart'}
+              </button>
+
+
+              <Snackbar
+                open={openSnackbar}
+                autoHideDuration={3000}
+                onClose={() => setOpenSnackbar(false)}
+                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                sx={{ top: '80px !important' }}
+              >
+                <Alert onClose={() => setOpenSnackbar(false)} severity="success" sx={{ width: '100%' }}>
+                  Added to cart successfully!
+                </Alert>
+              </Snackbar>
             </div>
-
-            <button
-              className='cart-button'
-              onClick={() => {
-                if (!isInCart) {
-                  addToCart(product);
-                  alert(`${product.title} added to cart!`);
-                }
-              }}
-              disabled={isInCart}
-              style={{
-                opacity: isInCart ? 0.6 : 1,
-                cursor: isInCart ? 'not-allowed' : 'pointer',
-              }}
-            >
-              {isInCart ? 'Add to cart' : 'Add to Cart'}
-            </button>
-          </div>
-        );
-      })}
-    </div>
+          );
+        })}
+      </div></>
   );
 };
 

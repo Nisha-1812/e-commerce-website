@@ -4,6 +4,7 @@ import Signin from './pages/Loginpage/Signin';
 import DashboardLayout from './components/DashboardLayout';
 import Product from './components/products/Product';
 import Signup from './components/Signup/Signup';
+import ProductDetail from './components/ProductDetail/ProductDetail';
 import Cart from './components/Carts/Cart';
 
 const App = () => {
@@ -18,7 +19,8 @@ const App = () => {
           <Route element={<DashboardLayout />}>
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path='/products' element={<Product />} />
-            <Route path='/cart' element={<Cart/>}/> 
+            <Route path="/product/:id" element={<ProductDetail />} />
+            <Route path='/cart' element={<Cart />} />
           </Route>
         </Routes>
       </BrowserRouter>
@@ -27,3 +29,5 @@ const App = () => {
 }
 
 export default App
+
+
