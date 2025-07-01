@@ -14,18 +14,21 @@ import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
 import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 import LoginIcon from '@mui/icons-material/Login';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
+import { useNavigate } from 'react-router-dom';
 
-const drawerwidth = 220
+const drawerwidth = 220;
 
 const menuitems = [
     { text: "Dashboard", icon: <DashboardIcon /> },
-    { text: "Products", icon: <ShoppingBagIcon /> },
+    { text: "Products", icon: <ShoppingBagIcon />,path: "/products" },
     { text: "Invoices", icon: <ReceiptLongIcon /> },
     { text: "Sign In", icon: <LoginIcon /> },
-    { text: "Sign Up", icon: <HowToRegIcon /> },
-]
+    { text: "Sign Up", icon: <HowToRegIcon />, path: "/signup" },
+];
 
 const Sidebar = ({ open }) => {
+    const navigate = useNavigate();
+
     return (
         <div>
             <Drawer
@@ -52,11 +55,11 @@ const Sidebar = ({ open }) => {
                 </Box>
                 <Box>
                     <List>
-                        {menuitems.map(({ text, icon }) =>
-                        (
+                        {menuitems.map(({ text, icon, path }) => (
                             <ListItem
                                 button
                                 key={text}
+                                onClick={() => navigate(path)}
                                 sx={{ justifyContent: open ? 'flex-start' : 'center' }}
                             >
                                 <ListItemIcon
@@ -70,13 +73,12 @@ const Sidebar = ({ open }) => {
                                 </ListItemIcon>
                                 {open && (<ListItemText primary={text} />)}
                             </ListItem>
-                        ))
-                        }
+                        ))}
                     </List>
                 </Box>
             </Drawer>
         </div>
-    )
-}
+    );
+};
 
-export default Sidebar
+export default Sidebar;

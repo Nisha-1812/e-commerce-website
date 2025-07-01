@@ -1,0 +1,145 @@
+
+.signup-container {
+  min-height: 100vh;
+  background-image: url("../../assets/signupbg1.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.signup-container1 {
+  width: 80%;
+  display: flex;
+  min-height: 80vh;
+  padding: 50px;
+  font-family: 'Segoe UI', sans-serif;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.left-section {
+  position: relative;
+  width: 50%;
+  overflow: hidden;
+  border-radius: 12px 0 0 12px;
+}
+
+.left-section img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.label-top {
+  position: absolute;
+  top: 16px;
+  left: 60px;
+  font-weight: bold;
+  padding: 80px;
+  font-size: 28px;
+  font-family:serif;
+  color: #1d4ed8;
+  line-height: 0cap;
+  text-shadow: 1px 1px 2px rgb(121, 121, 245);
+ 
+}
+
+.text-bottom {
+  position: absolute;
+  bottom: 40px;
+  left: 70px;
+  font-size: 24px;
+  font-weight: bold;
+  width: 80%;
+  font-family:serif;
+  color: #1d4ed8;
+}
+
+.right-section {
+  width: 50%;
+  background: linear-gradient(to bottom right, #1e3a8a, #1d4ed8);
+  color: white;
+  padding: 50px;
+  border-radius: 0 12px 12px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.star-icon {
+  font-size: 32px;
+  text-align: center;
+  margin-bottom: 10px;
+  text-shadow: 2px 2px 4px white;
+}
+
+.right-section h2 {
+  text-align: center;
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.right-section p {
+  text-align: center;
+  font-size: 17px;
+  margin-bottom: 20px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.form-row {
+  display: flex;
+  gap: 10px;
+}
+
+input {
+  padding: 10px 14px;
+  border: none;
+  border-radius: 999px;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+  outline: none;
+  width: 95%;
+}
+
+::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.button-row {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.btn-light {
+  flex: 1;
+  background: white;
+  color: #1e3a8a;
+  padding: 10px;
+  border: none;
+  border-radius: 999px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.btn-dark {
+  flex: 1;
+  background: black;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 999px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+
