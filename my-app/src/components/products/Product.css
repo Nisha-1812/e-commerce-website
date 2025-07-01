@@ -4,7 +4,7 @@
   gap: 20px;
   padding: 20px;
   height: 100vh;
-    overflow-y: auto;
+    /* overflow-y: auto; */
 }
 
 .product-card {
@@ -28,4 +28,8 @@
 {
   display: flex;
   justify-content: space-between;
+}
+
+.css-1udqal9 {
+    overflow-y: visible !important;
 }

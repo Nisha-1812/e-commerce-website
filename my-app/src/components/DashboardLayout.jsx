@@ -2,22 +2,41 @@ import { Box, CssBaseline, Toolbar } from '@mui/material'
 import React, { useState } from 'react'
 import Sidebar from './Sidebar'
 import Header from './Header'
+import { Outlet } from 'react-router-dom'
 
-const DashboardLayout = ({children}) => {
+const DashboardLayout = () => {
 
   const [open, setOpen] = useState(true)
+
+  const drawerWidth = open ? 220 : 64;
 
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
-      <Header open={open} setOpen={setOpen} />
-      <Sidebar  open={open} />
+      <Sidebar open={open} />
+
       <Box
-        component="main"
-        sx={{ flexGrow: 1, bgcolor: "#f4f6f8", p: 3, minHeight: "100vh"}}
+        sx={{
+          flexGrow: 1,
+          display: 'flex',
+          flexDirection: 'column',
+          width: `calc(100% - ${drawerWidth}px)`,
+        }}
       >
-        <Toolbar />
-        {children}
+        <Header open={open} setOpen={setOpen} />
+
+        <Box
+          component="main"
+          sx={{
+            flexGrow: 1,
+            p: 3,
+            bgcolor: '#f4f6f8',
+            overflowY: 'auto',
+          }}
+        >
+          <Toolbar />
+          <Outlet />
+        </Box>
       </Box>
     </Box>
   )

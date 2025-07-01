@@ -9,6 +9,8 @@ import {
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import ToggleOnIcon from '@mui/icons-material/ToggleOn';
 
+const drawerWidth = 220;
+
 const Header = ({ open, setOpen }) => {
 
   return (
@@ -17,18 +19,21 @@ const Header = ({ open, setOpen }) => {
         position="fixed"
         elevation={0}
         sx={{
-          zIndex: (theme) => theme.zIndex.drawer + 1,
           backgroundColor: "#f8f9fa",
           color: "#333",
           borderBottom: "1px solid #e0e0e0",
+          zIndex: 1300,
+          left: open ? `${drawerWidth}px` : '64px',
+          width: open ? `calc(100% - ${drawerWidth}px)` : 'calc(100% - 64px)',
+          transition: 'all 0.3s ease',
         }}
       >
         <Toolbar>
           <IconButton
             edge='start'
-            color='inherit'
+            color='rgb(86, 96, 110)'
             onClick={() => setOpen(!open)}
-            sx={{ marginRight: 2 }}
+            sx={{ marginRight: 2, }}
           >
             <ToggleOnIcon />
           </IconButton>

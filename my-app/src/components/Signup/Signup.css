@@ -1,7 +1,7 @@
 
 .signup-container {
   min-height: 100vh;
-  background-image: url("../../assets/signupbg1.jpg");
+  background-image: url("../../Assets/signupbg1.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   display: flex;
@@ -89,7 +89,7 @@
   margin-bottom: 20px;
 }
 
-form {
+.signup-form {
   display: flex;
   flex-direction: column;
   gap: 10px;

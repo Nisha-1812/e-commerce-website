@@ -1,0 +1,42 @@
+.login-img {
+    width: 500px;
+    height: 600px;
+    background-color: aliceblue;
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-form {
+    width: 500px;
+    height: 600px;
+    background-color: rgb(23, 43, 61);
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.loginpage {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: "#f4f6f8";
+}
+
+.register-link{
+    text-decoration: none;
+    margin-left: 8px;
+    color: rgb(129, 205, 236);
+    font-weight: 700;
+}

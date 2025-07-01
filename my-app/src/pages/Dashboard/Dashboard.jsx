@@ -1,5 +1,4 @@
 import React from 'react';
-import DashboardLayout from '../../components/DashboardLayout';
 import {
   Grid,
   Paper,
@@ -44,7 +43,6 @@ const cardData = [
 
 const Dashboard = () => {
   return (
-    <DashboardLayout>
       <Box sx={{ width: '100%', px: 2 }}>
         <Grid container spacing={3}>
           {cardData.map((card, index) => {
@@ -125,8 +123,6 @@ const Dashboard = () => {
           <RecentOrders />
         </Box>
       </Box>
-
-    </DashboardLayout >
   );
 };
 

@@ -9,9 +9,7 @@ import {
     TableRow,
     TableCell,
     Chip,
-    IconButton,
 } from '@mui/material';
-// import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 const orders = [
     {
@@ -54,6 +52,38 @@ const orders = [
         cost: '$150',
         status: 'CANCELLED',
     },
+    {
+        id: 4,
+        product: 'Backpack Gents, Swimming Cap Slin',
+        units: '5 Units',
+        date: 'Dec 13, 2025',
+        cost: '$200',
+        status: 'COMPLETED',
+    },
+    {
+        id: 5,
+        product: 'Speed 500 Ignite',
+        units: '1 Unit',
+        date: 'Dec 23, 2025',
+        cost: '$150',
+        status: 'CANCELLED',
+    },
+    {
+        id: 4,
+        product: 'Backpack Gents, Swimming Cap Slin',
+        units: '5 Units',
+        date: 'Dec 13, 2025',
+        cost: '$200',
+        status: 'COMPLETED',
+    },
+    {
+        id: 5,
+        product: 'Speed 500 Ignite',
+        units: '1 Unit',
+        date: 'Dec 23, 2025',
+        cost: '$150',
+        status: 'CANCELLED',
+    },
 ];
 
 const statusColor = {
@@ -78,43 +108,51 @@ const RecentOrders = () => (
             </Typography>
         </Box>
 
-        <Table>
-            <TableHead>
-                <TableRow>
-                    <TableCell sx={{ fontWeight: 600 }}>Order ID</TableCell>
-                    <TableCell sx={{ fontWeight: 600 }}>Product Name</TableCell>
-                    <TableCell sx={{ fontWeight: 600 }}>Units</TableCell>
-                    <TableCell sx={{ fontWeight: 600 }}>Order Date</TableCell>
-                    <TableCell sx={{ fontWeight: 600 }}>Order Cost</TableCell>
-                    <TableCell sx={{ fontWeight: 600 }}>Status</TableCell>
-                    <TableCell />
-                </TableRow>
-            </TableHead>
-            <TableBody>
-                {orders.map((order, index) => (
-                    <TableRow key={index}>
-                        <TableCell>{order.id}</TableCell>
-                        <TableCell>{order.product}</TableCell>
-                        <TableCell>{order.units}</TableCell>
-                        <TableCell>{order.date}</TableCell>
-                        <TableCell>{order.cost}</TableCell>
-                        <TableCell>
-                            <Chip
-                                label={statusColor[order.status].label}
-                                color={statusColor[order.status].color}
-                                size="small"
-                                sx={{ borderRadius: '10px', fontWeight: 500 }}
-                            />
-                        </TableCell>
-                        {/* <TableCell>
-                            <IconButton size="small">
-                                <MoreVertIcon fontSize="small" />
-                            </IconButton>
-                        </TableCell> */}
+        <Box
+            sx={{
+                height: '350px',
+                overflowY: 'auto',
+            }}
+        >
+            <Table>
+                <TableHead
+                    sx={{
+                        position: 'sticky',
+                        top: 0,
+                        backgroundColor: '#fff'
+                    }}
+                >
+                    <TableRow>
+                        <TableCell sx={{ fontWeight: 400, fontSize: '15px', letterSpacing: '0.02rem', color: 'rgb(86, 96, 110)' }}>Order ID</TableCell>
+                        <TableCell sx={{ fontWeight: 400, fontSize: '15px', letterSpacing: '0.02rem', color: 'rgb(86, 96, 110)' }}>Product Name</TableCell>
+                        <TableCell sx={{ fontWeight: 400, fontSize: '15px', letterSpacing: '0.02rem', color: 'rgb(86, 96, 110)' }}>Units</TableCell>
+                        <TableCell sx={{ fontWeight: 400, fontSize: '15px', letterSpacing: '0.02rem', color: 'rgb(86, 96, 110)' }}>Order Date</TableCell>
+                        <TableCell sx={{ fontWeight: 400, fontSize: '15px', letterSpacing: '0.02rem', color: 'rgb(86, 96, 110)' }}>Order Cost</TableCell>
+                        <TableCell sx={{ fontWeight: 400, fontSize: '15px', letterSpacing: '0.02rem', color: 'rgb(86, 96, 110)' }}>Status</TableCell>
+                        <TableCell />
                     </TableRow>
-                ))}
-            </TableBody>
-        </Table>
+                </TableHead>
+                <TableBody>
+                    {orders.map((order, index) => (
+                        <TableRow key={index}>
+                            <TableCell sx={{ color: 'text.secondary', fontSize: '14px' }}>{order.id}</TableCell>
+                            <TableCell sx={{ color: 'text.secondary', fontSize: '14px' }}>{order.product}</TableCell>
+                            <TableCell sx={{ color: 'text.secondary', fontSize: '14px' }}>{order.units}</TableCell>
+                            <TableCell sx={{ color: 'text.secondary', fontSize: '14px' }}>{order.date}</TableCell>
+                            <TableCell sx={{ color: 'text.secondary', fontSize: '14px' }}>{order.cost}</TableCell>
+                            <TableCell>
+                                <Chip
+                                    label={statusColor[order.status].label}
+                                    color={statusColor[order.status].color}
+                                    size="small"
+                                    sx={{ borderRadius: '10px', fontWeight: 500 }}
+                                />
+                            </TableCell>
+                        </TableRow>
+                    ))}
+                </TableBody>
+            </Table>
+        </Box>
     </Paper>
 );
 

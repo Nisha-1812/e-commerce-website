@@ -1,6 +1,6 @@
 import React from 'react';
 import './Signup.css';
-import signup from "../../assets/signup.jpg";
+import signup from "../../Assets/signup.jpg";
 import { GiPolarStar } from "react-icons/gi";
 
 const Signup = () => {
@@ -18,7 +18,7 @@ const Signup = () => {
         <h2>Get access to your Orders, Wishlist and Recommendations.</h2>
         <p>  Signup and enjoy the greatest deals</p>
 
-        <form>
+        <form className='signup-form'>
           <div className="form-row">
             <input type="text" placeholder="First Name" />
             <input type="text" placeholder="Last Name" />
