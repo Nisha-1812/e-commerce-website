@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {
   AppBar,
   Toolbar,
@@ -8,10 +8,16 @@ import {
 } from "@mui/material";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import ToggleOnIcon from '@mui/icons-material/ToggleOn';
+import { FaRegHeart } from "react-icons/fa";
+import { MdOutlineShoppingCart } from "react-icons/md";
+import { CartContext } from './Carts/Cartcontext';
+import { useNavigate } from 'react-router-dom';
 
 const drawerWidth = 220;
 
 const Header = ({ open, setOpen }) => {
+  const {cartItems}=useContext(CartContext);
+  const navigate=useNavigate();
 
   return (
     <div>
@@ -46,8 +52,27 @@ const Header = ({ open, setOpen }) => {
             }}
           >
             <IconButton color='inherit'>
+            <FaRegHeart />
+            </IconButton>
+
+      <IconButton color='inherit' onClick={() => navigate('/cart')}> 
+      <MdOutlineShoppingCart />
+      {cartItems.length > 0 && (
+        <span style={{
+          fontSize: '12px',
+          background: 'red',
+          color: 'white',
+          borderRadius: '50%',
+          padding: '2px 6px',
+          marginLeft: '4px'
+        }}>{cartItems.length}</span>
+      )}
+    </IconButton>
+
+             <IconButton color='inherit'>
               <NotificationsIcon />
             </IconButton>
+
             <Avatar alt='user' src='https://i.pravatar.cc/40' />
           </Box>
         </Toolbar>

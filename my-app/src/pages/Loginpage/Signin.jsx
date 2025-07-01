@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './Signin.css'
-import loginimg from '../../Assets/Privacy policy-rafiki.svg';
+import loginimg from '../../assets/Privacy policy-rafiki.svg';
 import {
     Box,
     Button,

@@ -1,6 +1,6 @@
 import React from 'react';
 import './Signup.css';
-import signup from "../../Assets/signup.jpg";
+import signup from "../../assets/signup.jpg";
 import { GiPolarStar } from "react-icons/gi";
 
 const Signup = () => {
