@@ -21,6 +21,26 @@ const Readmore=({text,maxChars=55})=>{
   )
 }
 
+const StarRating = ({ rating, count }) => {
+  const stars = [];
+  for (let i = 1; i <= 5; i++) {
+    stars.push(
+      <span key={i} style={{ color: i <= rating ? 'gold' : 'lightgray' }}>
+        ★
+      </span>
+    );
+  }
+
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+      {stars}
+      {count !== undefined && <span style={{ fontSize: '14px', color: '#666' }}>({count})</span>}
+    </div>
+  );
+};
+
+
+
 const ProductTitle = ({ title }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -69,8 +89,10 @@ const Product = () => {
            <h2 className='product-category'>{product.category}</h2>
          <Readmore text={product.description} maxChars={55}/>
          <div className='rating'>
-         <h6>{product.rating.rate}</h6>
-         <h5>{product.rating.count}</h5>
+      
+    <StarRating rating={Math.round(product.rating.rate)} count={product.rating.count} />
+
+
         </div>
         </div>
       ))}
