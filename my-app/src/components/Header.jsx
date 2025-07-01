@@ -12,11 +12,14 @@ import { FaRegHeart } from "react-icons/fa";
 import { MdOutlineShoppingCart } from "react-icons/md";
 import { CartContext } from './Carts/Cartcontext';
 import { useNavigate } from 'react-router-dom';
+import { FavoritesContext } from './Favorites/FavoritesContext';
 
 const drawerWidth = 220;
 
 const Header = ({ open, setOpen }) => {
   const {cartItems}=useContext(CartContext);
+const { favoriteItems } = useContext(FavoritesContext);
+
   const navigate=useNavigate();
 
   return (
@@ -51,9 +54,20 @@ const Header = ({ open, setOpen }) => {
               gap: 2
             }}
           >
-            <IconButton color='inherit'>
-            <FaRegHeart />
-            </IconButton>
+          <IconButton color='inherit' onClick={() => navigate("/favorites")}>
+  <FaRegHeart />
+  {favoriteItems.length > 0 && (
+    <span style={{
+      fontSize: '12px',
+      background: 'red',
+      color: 'white',
+      borderRadius: '50%',
+      padding: '2px 6px',
+      marginLeft: '4px'
+    }}>{favoriteItems.length}</span>
+  )}
+</IconButton>
+
 
       <IconButton color='inherit' onClick={() => navigate('/cart')}> 
       <MdOutlineShoppingCart />

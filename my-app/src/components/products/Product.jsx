@@ -2,6 +2,8 @@ import React, { useEffect, useState, useContext } from 'react';
 import axios from "axios";
 import "./Product.css";
 import { CartContext } from '../Carts/Cartcontext';
+import { FavoritesContext } from '../Favorites/FavoritesContext';
+import { FaRegHeart, FaHeart } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { Snackbar, Alert } from '@mui/material';
 import { TextField, IconButton } from '@mui/material';
@@ -48,10 +50,7 @@ const StarRating = ({ rating, count }) => {
 
 const ProductTitle = ({ title }) => {
   const [isExpanded, setIsExpanded] = useState(false);
-
-  const toggleTitle = () => {
-    setIsExpanded(prev => !prev);
-  };
+  const toggleTitle = () => setIsExpanded(prev => !prev);
 
   return (
     <h2 onClick={toggleTitle} style={{ cursor: 'pointer', display: 'inline', color: '#333', fontSize: "21px" }}>
@@ -68,12 +67,14 @@ const Product = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const [openSnackbar, setOpenSnackbar] = useState(false);
+   const [openSnackbar, setOpenSnackbar] = useState(false);
 
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredProducts, setFilteredProducts] = useState([]);
 
+
   const { cartItems, addToCart } = useContext(CartContext);
+  const { favoriteItems, addToFavorites, removeFromFavorites } = useContext(FavoritesContext);
 
   useEffect(() => {
     axios.get("https://fakestoreapi.com/products")
@@ -89,7 +90,7 @@ const Product = () => {
 
   if (loading) return <p>Loading products...</p>;
 
-  const handleSearch = () => {
+    const handleSearch = () => {
     const filteredData = products.filter(product => {
       return product.title.toLowerCase().includes(searchTerm.toLowerCase())
     })
@@ -100,7 +101,7 @@ const Product = () => {
 
   return (
     <>
-      <div className='searchbutton'>
+        <div className='searchbutton'>
         <TextField
           variant="outlined"
           size="small"
@@ -118,40 +119,53 @@ const Product = () => {
           <SearchIcon />
         </IconButton>
       </div>
-      <div className='product-grid'>
-        {displayProducts.map((product, index) => {
-          const isInCart = cartItems.some(item => item.id === product.id);
+    <div className='product-grid'>
+      {displayProducts.map((product ,index)=> {
+        const isInCart = cartItems.some(item => item.id === product.id);
+        const isInFavorites = favoriteItems.some(item => item.id === product.id);
 
-          return (
-            <div key={product.id} className='product-card'>
-              <Link to={`/product/${index + 1}`}><img className="product-image" src={product.image} alt='productimage'></img></Link>
+        return (
+          <div key={product.id} className='product-card'>
+            <p
+              className='product-icon'
+              onClick={() =>
+                isInFavorites
+                  ? removeFromFavorites(product.id)
+                  : addToFavorites(product)
+              }
+              style={{ cursor: "pointer", fontSize: "20px", color: isInFavorites ? "red" : "gray" }}
+            >
+              {isInFavorites ? <FaHeart /> : <FaRegHeart />}
+            </p>
+
+             <Link to={`/product/${index + 1}`}><img className="product-image" src={product.image} alt='productimage'></img></Link>
               <Link to={`/product/${index + 1}`} style={{ textDecoration: 'none' }}><ProductTitle title={product.title} /></Link>
-              <p><strong>Price:</strong> ₹{product.price}</p>
-              <h2 className='product-category'>{product.category}</h2>
-              <Readmore text={product.description} maxChars={30} />
-              <div className='rating'>
-                <StarRating rating={Math.round(product.rating.rate)} count={product.rating.count} />
-              </div>
+            <p><strong>Price:</strong> ₹{product.price}</p>
+            <h2 className='product-category'>{product.category}</h2>
+            <Readmore text={product.description} maxChars={30} />
+            <div className='rating'>
+              <StarRating rating={Math.round(product.rating.rate)} count={product.rating.count} />
+            </div>
 
-              <button
-                className='cart-button'
-                onClick={() => {
-                  if (!isInCart) {
-                    addToCart(product);
-                    setOpenSnackbar(true)
-                  }
-                }}
-                disabled={isInCart}
-                style={{
-                  opacity: isInCart ? 0.6 : 1,
-                  cursor: isInCart ? 'not-allowed' : 'pointer',
-                }}
-              >
-                {isInCart ? 'Add to cart' : 'Add to Cart'}
-              </button>
+            <button
+              className='cart-button'
+              onClick={() => {
+                if (!isInCart) {
+                  addToCart(product);
+                  // alert(`${product.title} added to cart!`);
+                  setOpenSnackbar(true)
+                }
+              }}
+              disabled={isInCart}
+              style={{
+                opacity: isInCart ? 0.6 : 1,
+                cursor: isInCart ? 'not-allowed' : 'pointer',
+              }}
+            >
+              {isInCart ? 'Go To Cart' : 'Add to Cart'}
+            </button>
 
-
-              <Snackbar
+                          <Snackbar
                 open={openSnackbar}
                 autoHideDuration={3000}
                 onClose={() => setOpenSnackbar(false)}
@@ -162,10 +176,11 @@ const Product = () => {
                   Added to cart successfully!
                 </Alert>
               </Snackbar>
-            </div>
-          );
-        })}
-      </div></>
+          </div>
+        );
+      })}
+    </div>
+    </>
   );
 };
 

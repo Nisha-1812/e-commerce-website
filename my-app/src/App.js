@@ -6,6 +6,7 @@ import Product from './components/products/Product';
 import Signup from './components/Signup/Signup';
 import ProductDetail from './components/ProductDetail/ProductDetail';
 import Cart from './components/Carts/Cart';
+import Favorites from './components/Favorites/Favorites';
 
 const App = () => {
   return (
@@ -21,6 +22,7 @@ const App = () => {
             <Route path='/products' element={<Product />} />
             <Route path="/product/:id" element={<ProductDetail />} />
             <Route path='/cart' element={<Cart />} />
+               <Route path='/favorites' element={<Favorites/>}/> 
           </Route>
         </Routes>
       </BrowserRouter>
