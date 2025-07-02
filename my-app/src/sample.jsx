@@ -1,37 +1,79 @@
-// components/Favorites/Favorites.jsx
+// components/cart/Cart.jsx
 import React, { useContext } from 'react';
-import { FavoritesContext } from './FavoritesContext';
+import { CartContext } from '../Carts/Cartcontext';
+import { FaMinusCircle } from "react-icons/fa";
 
-const Favorites = () => {
-  const { favoriteItems, removeFromFavorites } = useContext(FavoritesContext);
+const Cart = () => {
+  const { cartItems, removeFromCart } = useContext(CartContext);
+
+  // Calculate total amount
+  const totalAmount = cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
+
+  // Handle place order
+  const handlePlaceOrder = () => {
+    if (window.confirm("Are you sure you want to place the order?")) {
+      // Add order logic here
+      alert("Order placed successfully!");
+    }
+  };
 
   return (
     <div style={{ padding: "20px" }}>
-      <h2>Your Favorites</h2>
-      {favoriteItems.length === 0 ? (
-        <p>No favorite items</p>
+      <h2>Your Cart</h2>
+      {cartItems.length === 0 ? (
+        <p>Cart is empty</p>
       ) : (
-        favoriteItems.map(item => (
-          <div key={item.id} 
-          style={{ marginBottom: "10px",
-           borderBottom: "1px solid #ccc",
-            paddingBottom: "10px" }}>
-            <h3>{item.title}</h3>
-            <p>Price: ₹{item.price}</p>
-            <button
-              onClick={() => removeFromFavorites(item.id)}
-              style={{ padding: "5px 10px",
-                 backgroundColor: "#555",
-                  color: "#fff", border: "none",
-                   borderRadius: "4px", cursor: "pointer" }}
+        <>
+          {cartItems.map(item => (
+            <div
+              key={item.id}
+              style={{
+                marginBottom: "10px",
+                borderBottom: "1px solid #ccc",
+                paddingBottom: "10px"
+              }}
             >
-              Remove from Favorites
-            </button>
-          </div>
-        ))
+              <h3>{item.title}</h3>
+              <p>Price: ₹{item.price}</p>
+              <p>Quantity: {item.quantity}</p>
+              <button
+                onClick={() => removeFromCart(item.id)}
+                style={{
+                  padding: "5px 10px",
+                  backgroundColor: "red",
+                  color: "#fff",
+                  border: "none",
+                  borderRadius: "4px",
+                  cursor: "pointer"
+                }}
+              >
+                <FaMinusCircle />
+              </button>
+            </div>
+          ))}
+
+          {/* Total amount display */}
+          <h3>Total: ₹{totalAmount}</h3>
+
+          {/* Place Order button */}
+          <button
+            onClick={handlePlaceOrder}
+            style={{
+              marginTop: "15px",
+              padding: "10px 20px",
+              backgroundColor: "green",
+              color: "#fff",
+              border: "none",
+              borderRadius: "5px",
+              cursor: "pointer"
+            }}
+          >
+            Place Order
+          </button>
+        </>
       )}
     </div>
   );
 };
 
-export default Favorites;
+export default Cart;

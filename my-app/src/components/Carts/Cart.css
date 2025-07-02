@@ -1,0 +1,10 @@
+.item-image
+{
+    height: 100px;
+    width: 100px;
+}
+.item-container
+{
+    display: flex;
+    justify-content: space-between;
+}

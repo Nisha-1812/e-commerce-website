@@ -5,9 +5,133 @@ import { CartContext } from '../Carts/Cartcontext';
 import { FavoritesContext } from '../Favorites/FavoritesContext';
 import { FaRegHeart, FaHeart } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-import { Snackbar, Alert } from '@mui/material';
-import { TextField, IconButton } from '@mui/material';
+import { Snackbar, Alert, TextField, IconButton } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
+
+import teddy from "../../Assets/blueteddy.jpg"
+import car from "../../Assets/orangecar.jpg"
+import pinkteddy from "../../Assets/pinkteddy.jpg"
+import blackcar from "../../Assets/blackcar.jpg"
+import yellowteddy from "../../Assets/yellowteddy.jpg"
+import multicar from "../../Assets/multicar.jpg"
+import redteddy from "../../Assets/redteddy.jpg"
+import unicorn from "../../Assets/unicorn.jpg"
+import elephant from "../../Assets/elephant.jpg"
+import panda from "../../Assets/panda.jpg"
+import camera from "../../Assets/camera.jpg"
+import pink from "../../Assets/pink.jpg"
+import ring from "../../Assets/ring.jpg"
+import batterycar from "../../Assets/batterycar.jpg"
+import pinkunicorn from "../../Assets/pinkunicorn.jpg"
+
+// Local static data
+const data = [
+  {
+    "title": " blue Color Teddy Bear-Soft ",
+    "image": teddy,
+    "description": "CHIRKUT Soft Toys 3 Feet blue Color Teddy Bear Soft Toys for Girls, Birthday Gift friend, Wedding, Special || 3 Feet blue",
+    "category": "toys",
+    "price": 300
+  },
+  {
+    "title": "Metal vintage car ",
+    "image": car,
+    "description": "classical metal vintage car toy car Pullback",
+    "category": "toys",
+    "price": 350,
+  },
+  {
+    "title": "3 Feet pint Teddybear-Soft ",
+    "image": pinkteddy,
+    "description": "Webby 3 Feet Huggable Teddy Bear with Neck Bow Pink",
+    "category": "toys",
+    "price": 320
+  },
+  {
+    "title": " Nissan GTR R35 Sports Car ",
+    "image": blackcar,
+    "description": "KTRS ENTERPRISE 1:24 For Nissan GTR R35 Sports Car Alloy Model Car Kids Toys",
+    "category": "toys",
+    "price": 390
+  },
+  {
+    "title": "Yellow Teddybear -Soft",
+    "image": yellowteddy,
+    "description": "CHIRKUT Soft Toys 3 Feet Yellow Color Teddy Bear with Neck Bow Tie",
+    "category": "toys",
+    "price": 350
+  },
+  {
+    "title": "Mini Car Toys Set ",
+    "image": multicar,
+    "description": "YBN Mini Car Toys Set - 12 Pull-Back Cars for Boys Kids",
+    "category": "toys",
+    "price": 290,
+  },
+  {
+    "title": "Red Teddtbear with Cap ",
+    "image": redteddy,
+    "description": "Sanvidecors Cute Red Cap Red Teddy Bear",
+    "category": "toys",
+    "price": 323
+  },
+  {
+    "title": "Mini Unicorn Toy",
+    "image": unicorn,
+    "description": "Tiny Miny Unicorn Soft Toys, Kids Toys - 25 cm (Yellow)",
+    "category": "toys",
+    "price": 200,
+  },
+  {
+    "title": "Elephant Soft Toy ",
+    "image": elephant,
+    "description": "Super Soft Elephant with bow 40 cm one piece",
+    "category": "toys",
+    "price": 370,
+  },
+  {
+    "title": "Panda Mascot – Soft Toy ",
+    "image": panda,
+    "description": "Cute Panda Plush Toy",
+    "category": "toys",
+    "price": 500,
+  },
+  {
+    "title": "Digital Camera-Kids",
+    "image": camera,
+    "description": "NINE CUBE Kids Digital Camera",
+    "category": "toys",
+    "price": 570,
+  },
+  {
+    "title": "PRAYOMA ENTERPRISE Doll",
+    "image": pink,
+    "description": "PRAYOMA ENTERPRISE Doll - 108  (Pink)",
+    "category": "toys",
+    "price": 300,
+  },
+  {
+    "title": "Teddy Stacking Ring",
+    "image": ring,
+    "description": "TOYZTREND Plastic Baby Kids Teddy Stacking Ring",
+    "category": "toys",
+    "price": 350,
+  },
+  {
+    "title": "WMac Chargebal Racing Car",
+    "image": batterycar,
+    "description": "Remote Control Racing Car for Kids",
+    "category": "toys",
+    "price": 390,
+  },
+  {
+    "title": "Babique Unicorn Teddy ",
+    "image": pinkunicorn,
+    "description": "Babique Unicorn Teddy Bear Plush Soft Toy",
+    "category": "toys",
+    "price": 270,
+  }
+];
 
 const Readmore = ({ text, maxChars = 30 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -15,7 +139,7 @@ const Readmore = ({ text, maxChars = 30 }) => {
 
   return (
     <p>
-      {isExpanded || !isLong ? text : `${text.substring(0, maxChars)}....`}
+      {isExpanded || !isLong ? text : `${text.substring(0, maxChars)}...`}
       {isLong && (
         <span
           onClick={() => setIsExpanded(!isExpanded)}
@@ -32,9 +156,7 @@ const StarRating = ({ rating, count }) => {
   const stars = [];
   for (let i = 1; i <= 5; i++) {
     stars.push(
-      <span key={i} style={{ color: i <= rating ? 'orange' : 'lightgray' }}>
-        ★
-      </span>
+      <span key={i} style={{ color: i <= rating ? 'orange' : 'lightgray' }}>★</span>
     );
   }
 
@@ -66,12 +188,9 @@ const ProductTitle = ({ title }) => {
 const Product = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-
-   const [openSnackbar, setOpenSnackbar] = useState(false);
-
+  const [openSnackbar, setOpenSnackbar] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredProducts, setFilteredProducts] = useState([]);
-
 
   const { cartItems, addToCart } = useContext(CartContext);
   const { favoriteItems, addToFavorites, removeFromFavorites } = useContext(FavoritesContext);
@@ -88,20 +207,20 @@ const Product = () => {
       });
   }, []);
 
-  if (loading) return <p>Loading products...</p>;
-
-    const handleSearch = () => {
-    const filteredData = products.filter(product => {
-      return product.title.toLowerCase().includes(searchTerm.toLowerCase())
-    })
-    setFilteredProducts(filteredData)
-  }
+  const handleSearch = () => {
+    const filteredData = products.filter(product =>
+      product.title.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredProducts(filteredData);
+  };
 
   const displayProducts = searchTerm ? filteredProducts : products;
 
+  if (loading) return <p>Loading products...</p>;
+
   return (
     <>
-        <div className='searchbutton'>
+      <div className='searchbutton'>
         <TextField
           variant="outlined"
           size="small"
@@ -111,75 +230,122 @@ const Product = () => {
           onKeyDown={(e) => {
             if (e.key === 'Enter') handleSearch();
           }}
-          sx={{
-            width:'50%'
-          }}
+          sx={{ width: '50%' }}
         />
         <IconButton color="primary" onClick={handleSearch}>
           <SearchIcon />
         </IconButton>
       </div>
-    <div className='product-grid'>
-      {displayProducts.map((product ,index)=> {
-        const isInCart = cartItems.some(item => item.id === product.id);
-        const isInFavorites = favoriteItems.some(item => item.id === product.id);
 
-        return (
-          <div key={product.id} className='product-card'>
-            <p
-              className='product-icon'
-              onClick={() =>
-                isInFavorites
-                  ? removeFromFavorites(product.id)
-                  : addToFavorites(product)
-              }
-              style={{ cursor: "pointer", fontSize: "20px", color: isInFavorites ? "red" : "gray" }}
-            >
-              {isInFavorites ? <FaHeart /> : <FaRegHeart />}
-            </p>
+      <div className='product-grid'>
+        {/* For displaying API products */}
+        {displayProducts.map((product, index) => {
+          const isInCart = cartItems.some(item => item.id === product.id);
+          const isInFavorites = favoriteItems.some(item => item.id === product.id);
 
-             <Link to={`/product/${index + 1}`}><img className="product-image" src={product.image} alt='productimage'></img></Link>
-              <Link to={`/product/${index + 1}`} style={{ textDecoration: 'none' }}><ProductTitle title={product.title} /></Link>
-            <p><strong>Price:</strong> ₹{product.price}</p>
-            <h2 className='product-category'>{product.category}</h2>
-            <Readmore text={product.description} maxChars={30} />
-            <div className='rating'>
-              <StarRating rating={Math.round(product.rating.rate)} count={product.rating.count} />
-            </div>
-
-            <button
-              className='cart-button'
-              onClick={() => {
-                if (!isInCart) {
-                  addToCart(product);
-                  // alert(`${product.title} added to cart!`);
-                  setOpenSnackbar(true)
+          return (
+            <div key={`api-${product.id}`} className='product-card'>
+              <p className='product-icon'
+                onClick={() =>
+                  isInFavorites
+                    ? removeFromFavorites(product.id)
+                    : addToFavorites(product)
                 }
-              }}
-              disabled={isInCart}
-              style={{
-                opacity: isInCart ? 0.6 : 1,
-                cursor: isInCart ? 'not-allowed' : 'pointer',
-              }}
-            >
-              {isInCart ? 'Go To Cart' : 'Add to Cart'}
-            </button>
-
-                          <Snackbar
-                open={openSnackbar}
-                autoHideDuration={3000}
-                onClose={() => setOpenSnackbar(false)}
-                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-                sx={{ top: '80px !important' }}
+                style={{ cursor: "pointer", fontSize: "20px", color: isInFavorites ? "red" : "gray" }}
               >
-                <Alert onClose={() => setOpenSnackbar(false)} severity="success" sx={{ width: '100%' }}>
-                  Added to cart successfully!
-                </Alert>
-              </Snackbar>
-          </div>
-        );
-      })}
-    </div>
+                {isInFavorites ? <FaHeart /> : <FaRegHeart />}
+              </p>
+
+              <Link to={`/product/api-${index + 1}`}>
+                <img className="product-image" src={product.image} alt='productimage' />
+              </Link>
+              <Link to={`/product/api-${index + 1}`} style={{ textDecoration: 'none' }}>
+                <ProductTitle title={product.title} />
+              </Link>
+              <p><strong>Price:</strong> ₹{product.price}</p>
+              <h2 className='product-category'>{product.category}</h2>
+              <Readmore text={product.description} maxChars={30} />
+              <div className='rating'>
+                <StarRating rating={Math.round(product.rating.rate)} count={product.rating.count} />
+              </div>
+              <button
+                className='cart-button'
+                onClick={() => {
+                  if (!isInCart) {
+                    addToCart(product);
+                    setOpenSnackbar(true);
+                  }
+                }}
+                disabled={isInCart}
+                style={{
+                  opacity: isInCart ? 0.6 : 1,
+                  cursor: isInCart ? 'not-allowed' : 'pointer',
+                }}
+              >
+                {isInCart ? 'Go To Cart' : 'Add to Cart'}
+              </button>
+            </div>
+          );
+        })}
+
+        {/* For displaying arraylist of products */}
+        {data.map((product, index) => {
+          const isInCart = cartItems.some(item => item.title === product.title);
+          const isInFavorites = favoriteItems.some(item => item.title === product.title);
+
+          return (
+            <div key={`local-${index}`} className='product-card'>
+              <p className='product-icon'
+                onClick={() =>
+                  isInFavorites
+                    ? removeFromFavorites(product.title)
+                    : addToFavorites({ ...product, id: product.title })
+                }
+                style={{ cursor: "pointer", fontSize: "20px", color: isInFavorites ? "red" : "gray" }}
+              >
+                {isInFavorites ? <FaHeart /> : <FaRegHeart />}
+              </p>
+
+              <img className="product-image" src={product.image} alt='productimage' />
+              <ProductTitle title={product.title} />
+              <p><strong>Price:</strong> ₹{product.price}</p>
+              <h2 className='product-category'>{product.category}</h2>
+              <Readmore text={product.description} maxChars={30} />
+              <div className='rating'>
+                <StarRating rating={4} count={20} />
+              </div>
+              <button
+                className='cart-button'
+                onClick={() => {
+                  if (!isInCart) {
+                    addToCart({ ...product, id: product.title });
+                    setOpenSnackbar(true);
+                  }
+                }}
+                disabled={isInCart}
+                style={{
+                  opacity: isInCart ? 0.6 : 1,
+                  cursor: isInCart ? 'not-allowed' : 'pointer',
+                }}
+              >
+                {isInCart ? 'Go To Cart' : 'Add to Cart'}
+              </button>
+            </div>
+          );
+        })}
+      </div>
+
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={3000}
+        onClose={() => setOpenSnackbar(false)}
+        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+        sx={{ top: '80px !important' }}
+      >
+        <Alert onClose={() => setOpenSnackbar(false)} severity="success" sx={{ width: '100%' }}>
+          Added to cart successfully!
+        </Alert>
+      </Snackbar>
     </>
   );
 };

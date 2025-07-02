@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { FavoritesContext } from './FavoritesContext';
+import { FaMinusCircle } from "react-icons/fa";
 
 const Favorites=()=>{
     const{favoriteItems,removeFromFavorites}=useContext(FavoritesContext);
@@ -26,7 +27,7 @@ const Favorites=()=>{
                   color: "#fff", border: "none",
                    borderRadius: "4px", cursor: "pointer" }}
             >
-              Remove from Favorites
+              <FaMinusCircle />
             </button>
                     </div>
                 ))
