@@ -23,6 +23,7 @@ import pink from "../../Assets/pink.jpg"
 import ring from "../../Assets/ring.jpg"
 import batterycar from "../../Assets/batterycar.jpg"
 import pinkunicorn from "../../Assets/pinkunicorn.jpg"
+import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 
 // Local static data
 const data = [
@@ -206,6 +207,7 @@ const Product = () => {
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredProducts, setFilteredProducts] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("all");
 
   const { cartItems, addToCart } = useContext(CartContext);
   const { favoriteItems, addToFavorites, removeFromFavorites } = useContext(FavoritesContext);
@@ -222,34 +224,62 @@ const Product = () => {
       });
   }, []);
 
+  const allProducts = [...products, ...data];
+
   const handleSearch = () => {
-    const filteredData = products.filter(product =>
-      product.title.toLowerCase().includes(searchTerm.toLowerCase())
+    const filteredData = allProducts.filter(product =>
+      product.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
+      (selectedCategory === 'all' || product.category === selectedCategory)
     );
     setFilteredProducts(filteredData);
   };
 
-  const displayProducts = searchTerm ? filteredProducts : products;
+  const displayProducts = searchTerm
+    ? filteredProducts
+    : allProducts.filter(product =>
+      selectedCategory === "all" || product.category === selectedCategory
+    );
 
   if (loading) return <p>Loading products...</p>;
 
   return (
     <>
       <div className='searchbutton'>
-        <TextField
-          variant="outlined"
-          size="small"
-          placeholder="Search products..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter') handleSearch();
-          }}
-          sx={{ width: '50%' }}
-        />
-        <IconButton color="primary" onClick={handleSearch}>
-          <SearchIcon />
-        </IconButton>
+        <div>
+          <FormControl fullWidth size="small" sx={{ width: 220 }}>
+            <InputLabel id="category-label"><strong>Filter by Category</strong></InputLabel>
+            <Select
+              labelId="category-label"
+              id="category-select"
+              value={selectedCategory}
+              label="Filter by Category"
+              onChange={(e) => setSelectedCategory(e.target.value)}
+            >
+              <MenuItem value="all">All</MenuItem>
+              <MenuItem value="men's clothing">Men's Clothing</MenuItem>
+              <MenuItem value="jewelery">Jewelery</MenuItem>
+              <MenuItem value="electronics">Electronics</MenuItem>
+              <MenuItem value="women's clothing">Women's Clothing</MenuItem>
+              <MenuItem value="toys">Toys</MenuItem>
+            </Select>
+          </FormControl>
+        </div>
+        <div style={{width: '100%'}}> 
+          <TextField
+            variant="outlined"
+            size="small"
+            placeholder="Search products..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') handleSearch();
+            }}
+            sx={{ width: '50%' }}
+          />
+          <IconButton color="primary" onClick={handleSearch}>
+            <SearchIcon />
+          </IconButton>
+        </div>
       </div>
 
       <div className='product-grid'>
@@ -281,7 +311,10 @@ const Product = () => {
               <h2 className='product-category'>{product.category}</h2>
               <Readmore text={product.description} maxChars={30} />
               <div className='rating'>
-                <StarRating rating={Math.round(product.rating.rate)} count={product.rating.count} />
+                <StarRating
+                  rating={product.rating ? Math.round(product.rating.rate) : 0}
+                  count={product.rating?.count || 0}
+                />
               </div>
               <button
                 className='cart-button'
@@ -304,7 +337,7 @@ const Product = () => {
         })}
 
         {/* For displaying arraylist of products */}
-        {data.map((product, index) => {
+        {/* {data.map((product, index) => {
           const isInCart = cartItems.some(item => item.title === product.title);
           const isInFavorites = favoriteItems.some(item => item.title === product.title);
 
@@ -351,7 +384,7 @@ const Product = () => {
               </button>
             </div>
           );
-        })}
+        })} */}
       </div>
 
       <Snackbar
