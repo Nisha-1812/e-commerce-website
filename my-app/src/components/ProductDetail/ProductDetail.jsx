@@ -26,7 +26,7 @@ const ProductDetail = () => {
     const [product, setProduct] = useState(null);
     const [loading, setLoading] = useState(true)
     const [favorite, setFavorite] = useState(false);
-    const [quantity, setQuantity] = useState(0);
+    const [quantity, setQuantity] = useState(1);
     const [openSnackbar, setOpenSnackbar] = useState(false);
 
     const { cartItems, addToCart } = useContext(CartContext);
@@ -80,7 +80,7 @@ const ProductDetail = () => {
     }
 
     const handleDecreaseQuantity = () => {
-        setQuantity(prev => prev < 1 ? 0 : prev - 1)
+        setQuantity(prev => prev <= 1 ? 1 : prev - 1)
     }
 
     if (loading) return "Loading product...";
