@@ -27,6 +27,7 @@ import pinkunicorn from "../../Assets/pinkunicorn.jpg"
 // Local static data
 const data = [
   {
+    "id": 'local-1',
     "title": " blue Color Teddy Bear-Soft ",
     "image": teddy,
     "description": "CHIRKUT Soft Toys 3 Feet blue Color Teddy Bear Soft Toys for Girls, Birthday Gift friend, Wedding, Special || 3 Feet blue",
@@ -34,6 +35,7 @@ const data = [
     "price": 300
   },
   {
+    "id": 'local-2',
     "title": "Metal vintage car ",
     "image": car,
     "description": "classical metal vintage car toy car Pullback",
@@ -41,6 +43,7 @@ const data = [
     "price": 350,
   },
   {
+    "id": 'local-3',
     "title": "3 Feet pint Teddybear-Soft ",
     "image": pinkteddy,
     "description": "Webby 3 Feet Huggable Teddy Bear with Neck Bow Pink",
@@ -48,6 +51,7 @@ const data = [
     "price": 320
   },
   {
+    "id": 'local-4',
     "title": " Nissan GTR R35 Sports Car ",
     "image": blackcar,
     "description": "KTRS ENTERPRISE 1:24 For Nissan GTR R35 Sports Car Alloy Model Car Kids Toys",
@@ -55,6 +59,7 @@ const data = [
     "price": 390
   },
   {
+    "id": 'local-5',
     "title": "Yellow Teddybear -Soft",
     "image": yellowteddy,
     "description": "CHIRKUT Soft Toys 3 Feet Yellow Color Teddy Bear with Neck Bow Tie",
@@ -62,6 +67,7 @@ const data = [
     "price": 350
   },
   {
+    "id": 'local-6',
     "title": "Mini Car Toys Set ",
     "image": multicar,
     "description": "YBN Mini Car Toys Set - 12 Pull-Back Cars for Boys Kids",
@@ -69,6 +75,7 @@ const data = [
     "price": 290,
   },
   {
+    "id": 'local-7',
     "title": "Red Teddtbear with Cap ",
     "image": redteddy,
     "description": "Sanvidecors Cute Red Cap Red Teddy Bear",
@@ -76,6 +83,7 @@ const data = [
     "price": 323
   },
   {
+    "id": 'local-8',
     "title": "Mini Unicorn Toy",
     "image": unicorn,
     "description": "Tiny Miny Unicorn Soft Toys, Kids Toys - 25 cm (Yellow)",
@@ -83,6 +91,7 @@ const data = [
     "price": 200,
   },
   {
+    "id": 'local-9',
     "title": "Elephant Soft Toy ",
     "image": elephant,
     "description": "Super Soft Elephant with bow 40 cm one piece",
@@ -90,6 +99,7 @@ const data = [
     "price": 370,
   },
   {
+    "id": 'local-10',
     "title": "Panda Mascot – Soft Toy ",
     "image": panda,
     "description": "Cute Panda Plush Toy",
@@ -97,6 +107,7 @@ const data = [
     "price": 500,
   },
   {
+    "id": 'local-11',
     "title": "Digital Camera-Kids",
     "image": camera,
     "description": "NINE CUBE Kids Digital Camera",
@@ -104,6 +115,7 @@ const data = [
     "price": 570,
   },
   {
+    "id": 'local-12',
     "title": "PRAYOMA ENTERPRISE Doll",
     "image": pink,
     "description": "PRAYOMA ENTERPRISE Doll - 108  (Pink)",
@@ -111,6 +123,7 @@ const data = [
     "price": 300,
   },
   {
+    "id": 'local-13',
     "title": "Teddy Stacking Ring",
     "image": ring,
     "description": "TOYZTREND Plastic Baby Kids Teddy Stacking Ring",
@@ -118,6 +131,7 @@ const data = [
     "price": 350,
   },
   {
+    "id": 'local-14',
     "title": "WMac Chargebal Racing Car",
     "image": batterycar,
     "description": "Remote Control Racing Car for Kids",
@@ -125,6 +139,7 @@ const data = [
     "price": 390,
   },
   {
+    "id": 'local-15',
     "title": "Babique Unicorn Teddy ",
     "image": pinkunicorn,
     "description": "Babique Unicorn Teddy Bear Plush Soft Toy",
@@ -256,10 +271,10 @@ const Product = () => {
                 {isInFavorites ? <FaHeart /> : <FaRegHeart />}
               </p>
 
-              <Link to={`/product/api-${index + 1}`}>
+              <Link to={`/product/${product.id}`}>
                 <img className="product-image" src={product.image} alt='productimage' />
               </Link>
-              <Link to={`/product/api-${index + 1}`} style={{ textDecoration: 'none' }}>
+              <Link to={`/product/${product.id}`} style={{ textDecoration: 'none' }}>
                 <ProductTitle title={product.title} />
               </Link>
               <p><strong>Price:</strong> ₹{product.price}</p>
@@ -306,8 +321,12 @@ const Product = () => {
                 {isInFavorites ? <FaHeart /> : <FaRegHeart />}
               </p>
 
-              <img className="product-image" src={product.image} alt='productimage' />
-              <ProductTitle title={product.title} />
+              <Link to={`/product/${product.id}`}>
+                <img className="product-image" src={product.image} alt='productimage' />
+              </Link>
+              <Link to={`/product/${product.id}`} style={{ textDecoration: 'none' }}>
+                <ProductTitle title={product.title} />
+              </Link>
               <p><strong>Price:</strong> ₹{product.price}</p>
               <h2 className='product-category'>{product.category}</h2>
               <Readmore text={product.description} maxChars={30} />

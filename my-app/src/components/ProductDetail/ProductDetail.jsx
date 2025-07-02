@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import './ProductDetail.css';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import { Button , Typography } from "@mui/material";
+import { Alert, Button, Snackbar, Typography } from "@mui/material";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { IconButton } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
@@ -12,6 +12,10 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import DoubleArrowIcon from '@mui/icons-material/DoubleArrow';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
+import { FavoritesContext } from '../Favorites/FavoritesContext';
+import { CartContext } from '../Carts/Cartcontext';
+
+import { data } from '../ProductDetail/Localdata';
 
 const ProductDetail = () => {
 
@@ -23,18 +27,31 @@ const ProductDetail = () => {
     const [loading, setLoading] = useState(true)
     const [favorite, setFavorite] = useState(false);
     const [quantity, setQuantity] = useState(0);
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+
+    const { cartItems, addToCart } = useContext(CartContext);
+    const { favoriteItems, addToFavorites, removeFromFavorites } = useContext(FavoritesContext);
 
     useEffect(() => {
-        axios.get(`https://fakestoreapi.com/products/${id}`)
-            .then((response) => {
-                setProduct(response.data);
-                setLoading(false)
-            })
-            .catch((error) => {
-                console.log('Error fetching product:', error);
-                setLoading(false);
-            })
-    }, [id])
+        const localProduct = data.find(p => p.id === id);
+
+        if (localProduct) {
+            setProduct(localProduct);
+            setLoading(false);
+        } else {
+            axios.get(`https://fakestoreapi.com/products/${id}`)
+                .then((response) => {
+                    setProduct(response.data);
+                    setLoading(false);
+                })
+                .catch((error) => {
+                    console.log('Error fetching product:', error);
+                    setProduct(null);
+                    setLoading(false);
+                });
+        }
+    }, [id]);
+
 
     const StarRating = ({ rating, count }) => {
         const stars = [];
@@ -69,6 +86,9 @@ const ProductDetail = () => {
     if (loading) return "Loading product...";
     if (!product) return 'Product not found.';
 
+    const isInCart = cartItems.some(item => item.id === product.id);
+    const isInFavorites = favoriteItems.some(item => item.id === product.id);
+
     return (
         <div className='container product-details-container'>
             <IconButton onClick={handleBack} style={{ position: 'absolute', top: 20, left: 20 }}>
@@ -85,7 +105,10 @@ const ProductDetail = () => {
                     <p className='product-price'><strong>Price:</strong>₹{product.price}</p>
                     <h3>{product.category}</h3>
                     <p className='product-desc'>{product.description}</p>
-                    <StarRating rating={Math.round(product.rating.rate)} count={product.rating.count} />
+                    <StarRating
+                        rating={product.rating?.rate ? Math.round(product.rating.rate) : 4}
+                        count={product.rating?.count ?? 0}
+                    />
 
                     <div className='quantity-box'>
                         <IconButton onClick={handleDecreaseQuantity} color="primary" size="small" sx={{ border: '1px solid #ccc' }}>
@@ -113,16 +136,43 @@ const ProductDetail = () => {
                             variant="outlined"
                             color="error"
                             startIcon={<ShoppingCartIcon />}
+                            onClick={() => {
+                                if (!isInCart) {
+                                    if (quantity < 1) return;
+                                    addToCart(product, quantity);
+                                    setOpenSnackbar(true)
+                                }
+                            }}
                         >
                             Add to Cart
                         </Button>
-                        <IconButton onClick={() => setFavorite(prev => !prev)}>
+                        <IconButton
+                            onClick={() => {
+                                setFavorite(prev => !prev)
+                                isInFavorites
+                                    ? removeFromFavorites(product.id)
+                                    : addToFavorites(product)
+                            }}
+                        >
                             {favorite ? (
                                 <FavoriteIcon sx={{ color: 'red' }} />
                             ) : (
                                 <FavoriteBorderIcon sx={{ color: '#555' }} />
                             )}
                         </IconButton>
+
+
+                        <Snackbar
+                            open={openSnackbar}
+                            autoHideDuration={3000}
+                            onClose={() => setOpenSnackbar(false)}
+                            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                            sx={{ top: '80px !important' }}
+                        >
+                            <Alert onClose={() => setOpenSnackbar(false)} severity="success" sx={{ width: '100%' }}>
+                                Added to cart successfully!
+                            </Alert>
+                        </Snackbar>
                     </div>
                 </div>
             </div>
