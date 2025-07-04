@@ -3,6 +3,7 @@ import './Signup.css';
 import signup from "../../Assets/signup.jpg";
 // import signup from "../../assets/signup.jpg"
 import { GiPolarStar } from "react-icons/gi";
+import { Typography } from '@mui/material';
 
 const Signup = () => {
   return (
@@ -30,6 +31,19 @@ const Signup = () => {
             <button type="submit" className="btn-light">Sign up now</button>
             <button type="button" className="btn-dark">Explore Collection</button>
           </div>
+           <Typography
+                sx={{
+                  fontSize: "15px",
+                  mt: 4,
+                  textAlign: "center",
+                  color: "white",
+                }}
+              >
+                Already have an account?
+                <a href="/signin" className="signin-link">
+                  Sign in
+                </a>
+              </Typography>
         </form>
 
        

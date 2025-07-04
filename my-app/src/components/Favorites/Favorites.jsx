@@ -38,7 +38,7 @@ const Favorites = () => {
     };
 
     return (
-        <Box sx={{ minHeight: '84.5vh', padding: 4, backgroundColor: '#f5f5f5' }}>
+        <Box sx={{ minHeight: '84.5vh', padding: 4 }}>
             <Typography variant="h5" gutterBottom sx={{ mb: 5, color: '#555', fontSize: '18px', fontWeight: 700 }}>
                 My Wishlist <span className='wishlist-count'>({favoriteItems.length} items)</span>
             </Typography>

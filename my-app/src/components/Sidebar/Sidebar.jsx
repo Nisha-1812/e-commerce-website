@@ -5,31 +5,28 @@ import {
     ListItem,
     ListItemIcon,
     ListItemText,
-    // Toolbar,
     Typography,
     Box,
 } from "@mui/material";
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
-// import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 import LoginIcon from '@mui/icons-material/Login';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { SiSparkar } from "react-icons/si";
+import "../Sidebar/Sidebar.css"
 
-const drawerwidth = 220
+const drawerwidth = 220;
 
 const menuitems = [
     { text: "Dashboard", icon: <DashboardIcon />, link: '/dashboard' },
     { text: "Products", icon: <ShoppingBagIcon />, link: '/products' },
-    // { text: "Invoices", icon: <ReceiptLongIcon />, link: '/invoices' },
     { text: "Sign In", icon: <LoginIcon />, link: '/signin' },
     { text: "Sign Up", icon: <HowToRegIcon />, link: '/signup' },
-]
+];
 
 const Sidebar = ({ open }) => {
-
     const navigate = useNavigate();
-
     const location = useLocation();
 
     return (
@@ -46,28 +43,41 @@ const Sidebar = ({ open }) => {
                         transition: "width 0.3s",
                         overflowX: 'hidden',
                         height: '100vh',
+                        color:"violet"
                     }
                 }}
             >
-                 <Box sx={{ px: open ? 2 : 0 }}>
-                    {open && (
-                        <Typography variant="h6" sx={{
-                             mt: 1 ,
-                             p:2,
-                             color:'#1976d2',
-                             fontWeight:700,
-                             fontSize:'23px'
-                             }}
-                             >
+                {/* Logo Row */}
+                {open && (
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            px: 2,
+                            py: 2,
+                            gap: 1,
+                        }}
+                    >
+                        <Typography variant="h6" sx={{ color: '#1976d2' }}>
+                            <SiSparkar className='company-icon' />
+                        </Typography>
+                        <Typography
+                            variant="h6"
+                            sx={{
+                                color: '#1976d2',
+                                fontWeight: 700,
+                                fontSize: '23px',
+                            }}
+                        >
                             Sparkzon
                         </Typography>
-                    )}
-                </Box>
-                {/* <Toolbar /> */}
+                    </Box>
+                )}
+
+                {/* Menu List */}
                 <Box>
                     <List>
-                        {menuitems.map(({ text, icon, link }) =>
-                        (
+                        {menuitems.map(({ text, icon, link }) => (
                             <ListItem
                                 button
                                 key={text}
@@ -84,7 +94,7 @@ const Sidebar = ({ open }) => {
                                         minWidth: 0,
                                         mr: open ? 2 : 'auto',
                                         justifyContent: 'center',
-                                        color: location.pathname === link ? '#1976d2' : 'rgb(86, 96, 110)'
+                                        color: location.pathname === link ? '#1976d2' : 'rgb(86, 96, 110)',
                                     }}
                                 >
                                     {icon}
@@ -98,13 +108,12 @@ const Sidebar = ({ open }) => {
                                     />
                                 )}
                             </ListItem>
-                        ))
-                        }
+                        ))}
                     </List>
                 </Box>
             </Drawer>
         </div>
-    )
-}
+    );
+};
 
-export default Sidebar
+export default Sidebar;

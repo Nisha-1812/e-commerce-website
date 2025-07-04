@@ -1,20 +1,20 @@
 .login-img {
-    width: 500px;
-    height: 600px;
-    background-color: aliceblue;
+    width: 550px;
+    height: 630px;
+  
     border-top-left-radius: 15px;
     border-bottom-left-radius: 15px;
-    display: flex;
+  
     align-items: center;
     justify-content: center;
 }
 
 .login-form {
-    width: 500px;
-    height: 600px;
-    background-color: rgb(23, 43, 61);
-    border-top-right-radius: 15px;
-    border-bottom-right-radius: 15px;
+    width: 600px;
+    height: 630px;
+    background-color:white;
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -24,10 +24,16 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 100%;
+    position: relative;
 }
 
 .loginpage {
     height: 100vh;
+
+    background-image: url("../../Assets/signupbg1.jpg");
+     background-repeat: no-repeat;
+  background-size: cover;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -36,7 +42,24 @@
 
 .register-link{
     text-decoration: none;
+  
     margin-left: 8px;
-    color: rgb(129, 205, 236);
+    color:rgb(31, 86, 133);
     font-weight: 700;
+    border-bottom: 2px solid rgb(31, 86, 133);
+}
+.login-heading
+{
+    position: absolute;
+  
+    padding: 5px;
+    top: -2%;
+    width: 400px;
+    left: 16%;
+    line-height:35px;
+      font-size: 28px;
+  font-family:serif;
+  color:white;
+  
+ 
 }

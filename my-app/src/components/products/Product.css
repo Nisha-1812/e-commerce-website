@@ -1,18 +1,13 @@
-.product-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 20px;
-  padding: 20px;
-  height: 100vh;
-    /* overflow-y: auto; */
-}
+
 
 .product-card {
   border: 1px solid #eee;
   border-radius: 10px;
   padding: 15px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-  background-color: #fff;
+  background-color:white;
+     align-items: center;
+    text-align: center;
 }
 .product-image
 {
@@ -28,10 +23,13 @@
 {
   display: flex;
  gap: 20px;
+ justify-content: center;
 }
 
 .css-1udqal9 {
     overflow-y: visible !important;
+    background-color: #e6f1ff !important;
+    height: 100% !important;
 }
 
 .cart-button {
@@ -45,11 +43,7 @@
   margin-top: 20px;
 }
 
-.cart-button:disabled {
-  background-color: #ccc;
-  color: #555;
-  cursor: not-allowed;
-}
+
 
 .product-grid {
   display: grid;
@@ -58,17 +52,7 @@
   padding: 20px;
 }
 
-.product-card {
-  border: 1px solid #ddd;
-  padding: 16px;
-  border-radius: 8px;
-  background: white;
-  transition: box-shadow 0.2s;
-}
 
-.product-card:hover {
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
 
 .product-image {
   width: 100%;
@@ -84,7 +68,165 @@
   gap: 8px;
   justify-content: flex-start;
 }
+
+
 .product-icon
 {
-  position: absolute;
+  margin-top: 25px;
 }
+.favorites
+{
+  display: flex;
+  justify-content: space-around;
+}
+
+
+.admin-panel {
+  padding: 20px;
+  margin: 0 20px;
+}
+
+.add-product-btn {
+  padding: 10px 20px;
+  background-color: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+.add-product-form {
+  border: 1px solid #ccc;
+  padding: 20px;
+  border-radius: 10px;
+  background:gray;
+  margin-bottom: 20px;
+  max-width: 500px;
+}
+
+.add-product-form input,
+.add-product-form textarea,
+.add-product-form select {
+  display: block;
+  width: 100%;
+  margin-bottom: 15px;
+  padding: 10px;
+  font-size: 14px;
+  border-radius: 5px;
+  border: 1px solid black;
+}
+
+.save-product-btn {
+  background-color: green;
+  color: white;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+@media (max-width: 600px) {
+  .add-product-form {
+    width: 100%;
+  }
+}
+
+
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: #fff;
+  padding: 25px;
+  border-radius: 8px;
+  width: 80%;
+  position: relative;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  left: 110px;
+  top: 30px;
+  height: 85%;
+}
+
+.modal-content input,
+.modal-content textarea,
+.modal-content select {
+  width: 100%;
+  margin-bottom: 12px;
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  color: black;
+  background-color: white;
+
+}
+
+input::placeholder,
+textarea::placeholder,
+select::placeholder {
+  color: black;
+  opacity: 1;
+
+}
+
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.modal-close {
+  position: absolute;
+  top: 12px;
+  right: 15px;
+  font-size: 22px;
+  cursor: pointer;
+  color: #aaa;
+}
+
+.modal-close:hover {
+  color: red;
+}
+
+
+
+.toggle-group {
+  margin: 10px 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.toggle-group button {
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  background: #f9f9f9;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 3px;
+}
+
+
+
+.toggle-group button.selected {
+  background-color: #7a8ecf;
+  border-color: #172a95;
+  font-weight: bold;
+}
+
+

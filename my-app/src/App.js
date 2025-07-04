@@ -7,6 +7,8 @@ import Signup from './components/Signup/Signup';
 import ProductDetail from './components/ProductDetail/ProductDetail';
 import Cart from './components/Carts/Cart';
 import Favorites from './components/Favorites/Favorites';
+import Confirmorder from './components/Carts/Confirmorder';
+
 
 const App = () => {
   return (
@@ -21,8 +23,10 @@ const App = () => {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path='/products' element={<Product />} />
             <Route path="/product/:id" element={<ProductDetail />} />
+            
             <Route path='/cart' element={<Cart />} />
                <Route path='/favorites' element={<Favorites/>}/> 
+                 <Route path='/confirmorder' element={<Confirmorder/>}/> 
           </Route>
         </Routes>
       </BrowserRouter>
