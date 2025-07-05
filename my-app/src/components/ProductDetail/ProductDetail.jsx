@@ -18,7 +18,7 @@ import {
 
 import { FavoritesContext } from '../Favorites/FavoritesContext';
 import { CartContext } from '../Carts/Cartcontext';
-import { data } from '../ProductDetail/Localdata';
+// import { data } from '../ProductDetail/Localdata';
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -33,35 +33,63 @@ const ProductDetail = () => {
   const [selectedSize, setSelectedSize] = useState('');
   const [selectedUnit, setSelectedUnit] = useState('');
   const [selectedcolor, setSelectedcolor] = useState('');
-  const [selectedmodal,setSelectedmodal]=useState("");
+  const [selectedmodal, setSelectedmodal] = useState('');
+
+  const [displayPrice, setDisplayPrice] = useState(0);
+  const [displayImage, setDisplayImage] = useState('');
 
   const { cartItems, addToCart } = useContext(CartContext);
   const { favoriteItems, addToFavorites, removeFromFavorites } = useContext(FavoritesContext);
 
-  useEffect(() => {
-    if (id.startsWith("local-")) {
-      const localProducts = JSON.parse(localStorage.getItem("localProducts")) || [];
-      const localProduct = localProducts.find(p => p.id === id);
-      setProduct(localProduct || null);
-      setLoading(false);
-    } else {
-      const localDataProduct = data.find(p => p.id === id);
-      if (localDataProduct) {
-        setProduct(localDataProduct);
+useEffect(() => {
+  if (id.startsWith("local-")) {
+    const localProducts = JSON.parse(localStorage.getItem("localProducts")) || [];
+    const localProduct = localProducts.find(p => p.id === id);
+    setProduct(localProduct || null);
+    setLoading(false);
+  } else {
+    axios.get(`https://fakestoreapi.com/products/${id}`)
+      .then(res => {
+        setProduct(res.data);
         setLoading(false);
-      } else {
-        axios.get(`https://fakestoreapi.com/products/${id}`)
-          .then(res => {
-            setProduct(res.data);
-            setLoading(false);
-          })
-          .catch(() => {
-            setProduct(null);
-            setLoading(false);
-          });
-      }
+      })
+      .catch(() => {
+        setProduct(null);
+        setLoading(false);
+      });
+  }
+}, [id]);
+
+
+  useEffect(() => {
+    if (!product) return;
+
+    // Set image
+    let img = product.image;
+    if (product.category === "groceries" && selectedUnit && product.unitImages?.[selectedUnit]) {
+      img = product.unitImages[selectedUnit];
+    } else if (selectedcolor && product.availableColors?.[selectedcolor]) {
+      img = product.availableColors[selectedcolor];
     }
-  }, [id]);
+    setDisplayImage(img);
+
+    // Set price
+    let price = product.price;
+    if (product.category === "groceries" && selectedUnit && product.unitPrices?.[selectedUnit]) {
+      price = product.unitPrices[selectedUnit];
+    } else if (
+      (product.category === "clothes" || product.category === "footwear") &&
+      selectedSize && product.sizePrices?.[selectedSize]
+    ) {
+      price = product.sizePrices[selectedSize];
+    } else if (
+      product.category === "electronics" &&
+      selectedmodal && product.modalPrices?.[selectedmodal]
+    ) {
+      price = product.modalPrices[selectedmodal];
+    }
+    setDisplayPrice(price);
+  }, [product, selectedUnit, selectedcolor, selectedSize, selectedmodal]);
 
   const StarRating = ({ rating, count }) => {
     const stars = [];
@@ -87,17 +115,6 @@ const ProductDetail = () => {
   const isInFavorites = favoriteItems.some(item => item.id === product.id);
 
   const colorKeys = product.availableColors ? Object.keys(product.availableColors) : [];
-  const colorImage =
-    selectedcolor && product.availableColors?.[selectedcolor]
-      ? product.availableColors[selectedcolor]
-      : product.image;
-
-
-        const modalKeys = product.availablemodals ? Object.keys(product.availablemodals) : [];
-  const modalImage =
-    selectedmodal && product.availablemodals?.[selectedmodal]
-      ? product.availablemodals[selectedmodal]
-      : product.image;
 
   return (
     <div className='container product-details-container'>
@@ -108,13 +125,15 @@ const ProductDetail = () => {
       <div className='row productdetails-container'>
         <div className='product-sec1'>
           <div className='col-12 col-md-6 product-img'>
-            <img width='100%' height='100%' src={colorImage} alt='product' />
+            <img width='100%' height='100%' src={displayImage} alt='product' />
           </div>
         </div>
 
         <div className='col-12 col-md-6 product-details'>
           <h2 className='product-title'>{product.title}</h2>
-          <p className='product-price'><strong>Price:</strong> ₹{product.price}</p>
+          <div className='product-price'>
+            <p><strong>Price:</strong> {product.currency} {displayPrice}</p>
+          </div>
           <h3>{product.category}</h3>
           <p className='product-desc'>{product.description}</p>
 
@@ -142,11 +161,11 @@ const ProductDetail = () => {
             </div>
           )}
 
-            {product.availablemodals?.length > 0 && (
+          {product.availablemodals?.length > 0 && (
             <div>
-              <label>Select model:</label>
-              <select value={selectedSize} onChange={(e) => setSelectedmodal(e.target.value)}>
-                <option value="">Select modal</option>
+              <label>Select Model:</label>
+              <select value={selectedmodal} onChange={(e) => setSelectedmodal(e.target.value)}>
+                <option value="">Select model</option>
                 {product.availablemodals.map(modal => (
                   <option key={modal} value={modal}>{modal}</option>
                 ))}
@@ -185,10 +204,6 @@ const ProductDetail = () => {
             </div>
           )}
 
-
-          
-        
-
           <StarRating rating={product.rating?.rate ? Math.round(product.rating.rate) : 4} count={product.rating?.count ?? 0} />
 
           <div className='quantity-box'>
@@ -204,25 +219,21 @@ const ProductDetail = () => {
               color="error"
               startIcon={<ShoppingCartIcon />}
               onClick={() => {
-             if (quantity >= 1) {
-  const imageToUse = selectedcolor && product.availableColors?.[selectedcolor]
-    ? product.availableColors[selectedcolor]
-    : product.image;
+                if (quantity >= 1) {
+                  const productWithVariant = {
+                    ...product,
+                    selectedSize,
+                    selectedUnit,
+                    selectedcolor,
+                    selectedmodal,
+                    image: displayImage,
+                    price: displayPrice,
+                    variantId: `${product.id}-${selectedSize || "none"}-${selectedUnit || "none"}-${selectedcolor || "none"}-${selectedmodal || "none"}`
+                  };
 
-  const productWithVariant = {
-    ...product,
-    selectedSize,
-    selectedUnit,
-    selectedcolor,
-    selectedmodal,
-    image: imageToUse,
-    variantId: `${product.id}-${selectedSize}-${selectedUnit}-${selectedcolor}-${selectedmodal}` // optional: useful for deduping or future checks
-  };
-
-  addToCart(productWithVariant, quantity);
-  setOpenSnackbar(true);
-}
-
+                  addToCart(productWithVariant, quantity);
+                  setOpenSnackbar(true);
+                }
               }}
             >
               Add to Cart

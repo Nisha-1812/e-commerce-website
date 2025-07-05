@@ -79,7 +79,13 @@
   display: flex;
   justify-content: space-around;
 }
-
+.product-prices
+{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 2px;
+}
 
 .admin-panel {
   padding: 20px;

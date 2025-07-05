@@ -50,6 +50,7 @@
 }
 
 .product-price {
+    display: flex;
     color: rgb(35, 35, 35);
 }
 
